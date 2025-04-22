@@ -7,22 +7,100 @@ package letcodeexe
 // }
 
 func addTwoNumber(l1 *ListNode, l2 *ListNode) *ListNode {
-	list1 := []int{}
-	list2 := []int{}
+	var head, tail *ListNode
 
-	curr1 := l1
-	for curr1 != nil {
-		list1 = append(list1, curr1.Val)
-		curr1 = curr1.Next
+	sisa := 0
+	for l1 != nil && l2 != nil {
+		num := (l1.Val + l2.Val) + sisa
+		if num > 9 {
+			sisa = 1
+		} else {
+			sisa = 0
+		}
+
+		// add to linked list
+		ins := num % 10
+		newNode := &ListNode{
+			Val:  ins,
+			Next: nil,
+		}
+
+		if head == nil {
+			head = newNode
+			tail = newNode
+		} else {
+			tail.Next = newNode
+			tail = newNode
+		}
+
+		l1 = l1.Next
+		l2 = l2.Next
 	}
 
-	curr2 := l2
-	for curr1 != nil {
-		list1 = append(list2, curr2.Val)
-		curr1 = curr2.Next
+	for l1 != nil {
+		num := l1.Val + sisa
+		if num > 9 {
+			sisa = 1
+		} else {
+			sisa = 0
+		}
+
+		// add to linked list
+		ins := num % 10
+		newNode := &ListNode{
+			Val:  ins,
+			Next: nil,
+		}
+
+		if head == nil {
+			head = newNode
+			tail = newNode
+		} else {
+			tail.Next = newNode
+			tail = newNode
+		}
+		l1 = l1.Next
 	}
 
-	for i := len(list1) - 1; i >= 9; i-- {
+	for l2 != nil {
+		num := l2.Val + sisa
+		if num > 9 {
+			sisa = 1
+		} else {
+			sisa = 0
+		}
 
+		// add to linked list
+		ins := num % 10
+		newNode := &ListNode{
+			Val:  ins,
+			Next: nil,
+		}
+
+		if head == nil {
+			head = newNode
+			tail = newNode
+		} else {
+			tail.Next = newNode
+			tail = newNode
+		}
+		l2 = l2.Next
 	}
+
+	if sisa != 0 {
+		// add to linked list
+		newNode := &ListNode{
+			Val:  sisa,
+			Next: nil,
+		}
+
+		if head == nil {
+			head = newNode
+			tail = newNode
+		} else {
+			tail.Next = newNode
+			tail = newNode
+		}
+	}
+	return head
 }
